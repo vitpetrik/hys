@@ -32,7 +32,8 @@ RUN julia -e 'using Pkg; Pkg.instantiate()'
 
 
 # Install Quarto
-RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.6.40/quarto-1.6.40-linux-arm64.deb -O /tmp/quarto.deb \
+RUN ARCH=$(dpkg --print-architecture) \
+    && wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.6.40/quarto-1.6.40-linux-${ARCH}.deb -O /tmp/quarto.deb \
     && apt-get update \
     && apt-get install -y /tmp/quarto.deb \
     && rm /tmp/quarto.deb
