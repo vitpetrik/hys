@@ -16,20 +16,7 @@ RUN apt-get update && apt-get install -y \
 # Install Julia
 RUN curl -fsSL https://install.julialang.org | sh -s -- --yes --default-channel lts --path=/root/.julia
 
-RUN julia -e 'using Pkg; Pkg.add("IJulia")'
-RUN julia -e 'using Pkg; Pkg.add("Plots")'
-RUN julia -e 'using Pkg; Pkg.add("DifferentialEquations")'
-RUN julia -e 'using Pkg; Pkg.add("ModelingToolkit")'
-RUN julia -e 'using Pkg; Pkg.add("OrdinaryDiffEq")'
-RUN julia -e 'using Pkg; Pkg.add("LazySets")'
-RUN julia -e 'using Pkg; Pkg.add("JuMP")'
-RUN julia -e 'using Pkg; Pkg.add("PATHSolver")'
-RUN julia -e 'using Pkg; Pkg.add("SumOfSquares")'
-RUN julia -e 'using Pkg; Pkg.add("DynamicPolynomials")'
-RUN julia -e 'using Pkg; Pkg.add("MosekTools")'
-RUN julia -e 'using Pkg; Pkg.add("CSDP")'
-RUN julia -e 'using Pkg; Pkg.instantiate()'
-
+RUN julia --project=. -e 'using Pkg; Pkg.instantiate()'
 
 # Install Quarto
 RUN ARCH=$(dpkg --print-architecture) \

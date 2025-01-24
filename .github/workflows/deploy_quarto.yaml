@@ -21,7 +21,7 @@ jobs:
 
     - name: Run Quarto to build the site
       run: |
-        docker run --rm -v $(pwd):/site quarto-julia:latest bash -c \"quarto render /site\"
+        docker run --rm -v "${{ github.workspace }}:/site" quarto-julia:latest bash -c "quarto render /site"
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
