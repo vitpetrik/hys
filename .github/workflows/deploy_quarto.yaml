@@ -1,0 +1,30 @@
+name: Build and Deploy Quarto Site
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Docker image
+      run: docker build -t quarto-julia:latest .
+
+    - name: Run Quarto to build the site
+      run: |
+        docker run --rm -v $(pwd):/site quarto-julia:latest bash -c \"quarto render /site\"
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./_site
