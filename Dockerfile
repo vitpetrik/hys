@@ -4,6 +4,8 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH="$PATH:/root/.julia/bin"
 
+COPY Project.toml Project.toml /deps/
+
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     wget \
@@ -16,7 +18,7 @@ RUN apt-get update && apt-get install -y \
 # Install Julia
 RUN curl -fsSL https://install.julialang.org | sh -s -- --yes --default-channel lts --path=/root/.julia
 
-RUN julia --project=. -e 'using Pkg; Pkg.instantiate()'
+RUN julia --project=/deps/ -e 'using Pkg; Pkg.instantiate()'
 
 # Install Quarto
 RUN ARCH=$(dpkg --print-architecture) \
